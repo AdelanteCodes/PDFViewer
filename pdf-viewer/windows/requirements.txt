@@ -1,0 +1,6 @@
+pdfplumber>=0.11,<0.12
+openpyxl>=3.1,<4
+reportlab>=4.4,<5
+pypdfium2>=4.30,<6
+Pillow>=10,<13
+numpy>=1.26,<3
