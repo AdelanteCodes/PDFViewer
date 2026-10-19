@@ -45,7 +45,7 @@ function extractTableBlocks(pageLines,pageNo){
 }
 async function recognizePage(page,scale=1.3){
   const {default:Tesseract}=await import('https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/+esm');
-  if(!ocrWorker)ocrWorker=await Tesseract.createWorker('eng',1,{workerPath:'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js',corePath:'https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1',langPath:'https://tessdata.projectnaptha.com/4.0.0',workerBlobURL:false,logger:m=>{if(m.status==='recognizing text')$('progress').value=Math.min(99,Number(m.progress||0)*100)}});
+  if(!ocrWorker)ocrWorker=await Tesseract.createWorker('eng',1,{workerPath:'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js',corePath:'https://cdn.jsdelivr.net/npm/tesseract.js-core@5.1.1',langPath:'https://tessdata.projectnaptha.com/4.0.0',workerBlobURL:true,logger:m=>{if(m.status==='recognizing text')$('progress').value=Math.min(99,Number(m.progress||0)*100)}});
   const viewport=page.getViewport({scale}),canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height);const ctx=canvas.getContext('2d',{willReadFrequently:true});await page.render({canvasContext:ctx,viewport}).promise;const result=await ocrWorker.recognize(canvas);const words=(result.data.words||[]).map(w=>({text:w.text,x:w.bbox.x0/scale,x2:w.bbox.x1/scale,y:(canvas.height-w.bbox.y1)/scale}));const lines=groupLines(words);canvas.width=0;canvas.height=0;return {text:lines.map(l=>l.text).join('\n'),tokens:words,lines};
 }
 async function closeOcr(){if(ocrWorker){const w=ocrWorker;ocrWorker=null;await w.terminate()}}
