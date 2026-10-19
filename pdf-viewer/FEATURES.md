@@ -1,3 +1,18 @@
+# Browser workspace beta
+
+See [the feature matrix](features.html) for current complete, limited and pending behavior. The existing 0.4 Windows download remains unchanged; the workspace enhancements below are website changes.
+
+- Searchable categorized catalog, recent tools and unified in-memory PDF preview, zoom, page selection, bounded undo/redo and downloads.
+- Compatible PDF operations chain without reuploading; reusable workflow settings save locally without documents or passwords. Failed/cancelled workflows retain completed steps.
+- Editor and extraction handoffs use same-origin messages and copied in-memory bytes. Stale editor results are rejected when the working document changes.
+- Image watermarks, bookmark depth and splitting when a literal labelled value changes.
+- Added-object resize handles/alignment, object redo and existing HTTP/HTTPS link target editing (link updates are outside object history).
+- Select OCR languages and extraction pages. Literal label mappings support per-page fields, source tracking, missing-value warnings and explicit corrections before export.
+- Excel heading mapping and optional duplicate removal (data columns only; first source wins). Separate-tab mode retains all rows.
+- Pinned vendored modules, upstream license notices, offline checksum verification and automated regression checks.
+
+No full Sejda parity claim: arbitrary native text/image editing and accurate editable Office layout reconstruction remain pending. Phone hardware and the full browser matrix require external device verification.
+
 # PDF Viewer 0.4 Beta
 
 The existing billing parser, tables, filters, sorting and exports remain available. All tools process files locally. Browser libraries download from public CDNs; document contents are not uploaded by this application.

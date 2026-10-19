@@ -1,0 +1,152 @@
+{
+  "https://cdn.jsdelivr.net/npm/@babel/runtime@7.25.6/helpers/typeof/+esm": {
+    "file": "28582e1a4fc22687e71c.mjs",
+    "sha256": "c827ce5f4b103b0552ceee0e68ef5e938c443c0216eb22719c56bc1526ed5799",
+    "vendoredSha256": "7ac125d79ee4a496933622e5ca2e296286cea505a0d7b39c5d095a1c6e867166"
+  },
+  "https://cdn.jsdelivr.net/npm/@pdf-lib/standard-fonts@1.0.0/+esm": {
+    "file": "5b81111f0dfa1c849046.mjs",
+    "sha256": "30d05c627842dd8495d966e0c0d23e3e30083856d70d8c026b53f39154b39b3f",
+    "vendoredSha256": "337ad3d7f428e330b7934543c3c768d5d416a53047b67bb4db8f12c3bccc53e6"
+  },
+  "https://cdn.jsdelivr.net/npm/@pdf-lib/upng@1.0.1/+esm": {
+    "file": "2270e976348b2133a04d.mjs",
+    "sha256": "c3aadb7b5a1aff1fe2d5a580d6d72d9a358a43db70039ae7ae4a29399186ce02",
+    "vendoredSha256": "eaaed5375903402532ffa6beca787b07d373f03d2ad07a10dd70dc9d1ef3ae47"
+  },
+  "https://cdn.jsdelivr.net/npm/canvg/+esm": {
+    "file": "fc4a3f0fedc42a0c4971.mjs",
+    "sha256": "95b11a85654a7a3feef43271ac2f432fcf5f29211ff4e7817f20c2fbb40696d9",
+    "vendoredSha256": "ee6ac6140d97b2e114909a67f5b55133ef8111feba4ca0d81403cfca6546c66e"
+  },
+  "https://cdn.jsdelivr.net/npm/docx@9.1.1/+esm": {
+    "file": "f7d4a78e954c5e3c796b.mjs",
+    "sha256": "5ace8df3e97301532042d9f387c47428cb624ed5aea584cb266110f323ee790d",
+    "vendoredSha256": "02384e5f9e64e484a4e65d09309c21320e2251e7da75ff88459219e89956c661"
+  },
+  "https://cdn.jsdelivr.net/npm/dompurify/+esm": {
+    "file": "1fb09aea869f907235d2.mjs",
+    "sha256": "1ff4f64bc543a87ecdb8c6ce9a6787b420252f8c232d8f15ca3221925fc9b85f",
+    "vendoredSha256": "030b9093fa81ec9227c6711c795321882fd2b69bb65852dbf1f00a41a1b0223f"
+  },
+  "https://cdn.jsdelivr.net/npm/fflate@0.8.2/+esm": {
+    "file": "35ce6d01715a0937d0b2.mjs",
+    "sha256": "50daf01c8e6bbda6ffba145ef2a235ea2961a3195eeeec2291fcf2af8cd2f172",
+    "vendoredSha256": "d53e7ae66d96ae31cc214f8518bdeec4564c9175c84c494f11ce01778ced33ef"
+  },
+  "https://cdn.jsdelivr.net/npm/html2canvas/+esm": {
+    "file": "24a3924599a935eb5a6d.mjs",
+    "sha256": "cd7dccd5f6731086b85fe51dd08bc27ad36abd6d082fbc0938357e6845cf7f87",
+    "vendoredSha256": "7d73e094b0d2b627350448018f5480d9786d3e770132e824c9ef7ec80d6cf8f6"
+  },
+  "https://cdn.jsdelivr.net/npm/is-electron@2.2.2/+esm": {
+    "file": "b6b773fb3ea47af22f12.mjs",
+    "sha256": "0a597783fad0c7feff08192a10ff12cda0115378a0c670dc2125cf1c22daafd4",
+    "vendoredSha256": "5100217f1af1462fabb88821e41276314efd4e6f5ca349cad4e7cd0f843cd49a"
+  },
+  "https://cdn.jsdelivr.net/npm/jspdf@2.5.2/+esm": {
+    "file": "08df25726235908680b6.mjs",
+    "sha256": "5a96547eca601d4b20adb9664a9336edecab89319c8480c97999b02caaaa2a52",
+    "vendoredSha256": "97a639184eaf4fc681564f46b000c67d2afd10c9da79c3d01740c58b1013179d"
+  },
+  "https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm": {
+    "file": "fb7e88cdb870365740d4.mjs",
+    "sha256": "014e9a0868feeaf85f6dbd4ff005acc243d92cd9d5fc3f5141dc8a41315f57c6",
+    "vendoredSha256": "e62ff259b7f379a6a5f10e5a2fd522ff6ac80286a25635dd3b7e55ba2bf5748d"
+  },
+  "https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js": {
+    "file": "0521b395c5f9e45c455f.mjs",
+    "sha256": "deb07bf230d1cb3e190bc5adc6743f35c6531b6571d1e5469b24f452a7f0f4ab",
+    "vendoredSha256": "deb07bf230d1cb3e190bc5adc6743f35c6531b6571d1e5469b24f452a7f0f4ab"
+  },
+  "https://cdn.jsdelivr.net/npm/pako@1.0.10/+esm": {
+    "file": "a4bfe8bbc0337f633ebb.mjs",
+    "sha256": "447d30bdb66bf25fae05a874291048ee271363b4c6aa2842893b1dab9e45bdbd",
+    "vendoredSha256": "675b45b11225afd4e0a8c2cfb3cc1f88114920545a63fc581b0f9ed2db3cd875"
+  },
+  "https://cdn.jsdelivr.net/npm/pako@1.0.11/+esm": {
+    "file": "81e0431a6091a48c35fa.mjs",
+    "sha256": "f92d0cd0504f73aa677a333099cb5368d1232f37852f0f8008e3d3986f310770",
+    "vendoredSha256": "7a22c18aebd7e5ef1c7b8415af8b56620074cc59dfaab14b1475554eeb4c800a"
+  },
+  "https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/+esm": {
+    "file": "1b66d097fa5b86e8ecea.mjs",
+    "sha256": "c5c129a0a41fd776f058e57e9eec0e28837bafb8be69a7b8ebd5ad862ee33b68",
+    "vendoredSha256": "6cd1831d0b9f3a390f585c8aa889c795c0497758ef2a90311b3ea4c62f769a40"
+  },
+  "https://cdn.jsdelivr.net/npm/performance-now@2.1.0/+esm": {
+    "file": "7ad1256088c7cfe36693.mjs",
+    "sha256": "3c78fb1901e1f0d32a3d3f0155b35fb7521d46f7e1665d71a278e4bdc877d786",
+    "vendoredSha256": "dbef7556d1d4714551f81e5ad70d8f932778324992e408606f40ba0f128167d2"
+  },
+  "https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/+esm": {
+    "file": "c9b38bb774f7f1a9d26f.mjs",
+    "sha256": "399452596f90d934224c3d78be14624c3ba5a55ccffaa3111ce0117482767119",
+    "vendoredSha256": "0ee9aeb82446d57f563d8b7536c4a8f0f44ad4b2b414b369820c87b6707cd217"
+  },
+  "https://cdn.jsdelivr.net/npm/qpdf-wasm-esm-embedded@1.1.1/qpdf.mjs": {
+    "file": "f2bb1ead804956fe7b9a.mjs",
+    "sha256": "68e0beb59e25e5bba25ca8af498225f5095b630e33e05e3196b9374d73f3c462",
+    "vendoredSha256": "68e0beb59e25e5bba25ca8af498225f5095b630e33e05e3196b9374d73f3c462"
+  },
+  "https://cdn.jsdelivr.net/npm/raf@3.4.1/+esm": {
+    "file": "b78ef34cdef376880339.mjs",
+    "sha256": "11190d05bdab41984b566d24d475e001365ed5465e79cd365e594771f087e535",
+    "vendoredSha256": "6834324fab9b405ecb8b39c1c6824cb6daa6027328635bd630f05f8fd746033e"
+  },
+  "https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.11/runtime/+esm": {
+    "file": "f1d11b22b690314c7437.mjs",
+    "sha256": "15efa07a26afe7a66e50a7144bf25f70fc63a78e2707d9a9d263614b7e90f2ee",
+    "vendoredSha256": "c16ecfc7a2f8f7a005e3bda85793f977b0207159a358f887c8799f3595fff37f"
+  },
+  "https://cdn.jsdelivr.net/npm/rgbcolor@1.0.1/+esm": {
+    "file": "5d1297e8f9e5c1bec7cd.mjs",
+    "sha256": "85ed8cf117202dad6b12ce7b701379d9f957080d16d74e63ec861bcd20499c3f",
+    "vendoredSha256": "ab113c642144d006cf24398271f6bad1178d5f788ba9f957744fdb46f77ef79f"
+  },
+  "https://cdn.jsdelivr.net/npm/stackblur-canvas@2.7.0/+esm": {
+    "file": "f31e451ceee2bd27aa05.mjs",
+    "sha256": "6ee3146eda8a9b322dd6fbc67d9d45bb60ba15c8d46ec8090a0c16548b3f1818",
+    "vendoredSha256": "e7aa75249e643a8f8239e1ef163ca79960a5247ace312dc3851a1099100d86f9"
+  },
+  "https://cdn.jsdelivr.net/npm/svg-pathdata@6.0.3/+esm": {
+    "file": "7b7a4559187c742418a9.mjs",
+    "sha256": "517a377a5c38dca68c2923b8f654955acdc7fc9b671657bb87da1e648acf540c",
+    "vendoredSha256": "09c40630dc3947c0788e790829a5edf1c92120292007ec6dc959618bbdd37e84"
+  },
+  "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/+esm": {
+    "file": "fd043b290c6bcc76edae.mjs",
+    "sha256": "781d162e3a19d9d66786676cbc99e47c5956476d415dd50b21bc64315c989652",
+    "vendoredSha256": "b15f82b92b376ed27176e4a2bc3ba54d61a2db591c885ab4a497db6ad145e1c5"
+  },
+  "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/worker.min.js": {
+    "file": "f800025af8c01050c78d.mjs",
+    "sha256": "aca1229639fc9907d86f96e825955a2b7c5716d17f3bc3acd71f9c7ab66181fc",
+    "vendoredSha256": "d7b79c3abf643ec51e9f2111edce2e48c25eadf395d89d7e914c1abe38975b29"
+  },
+  "https://cdn.jsdelivr.net/npm/tslib@1.14.1/+esm": {
+    "file": "1988ab777ca87e331397.mjs",
+    "sha256": "98c97886287a55e4c136d2127bf81b6d4e7445e0c85ab773be1a3a9b7a86c203",
+    "vendoredSha256": "7d388f8e936c5ffb64aa6b9443864e78c58fdb867aa3d898066ee78a3f9c991d"
+  },
+  "https://cdn.jsdelivr.net/npm/utif@3.1.0/+esm": {
+    "file": "f0c5cb762d2d6783e90e.mjs",
+    "sha256": "c38e51346049dea70ab36d4b52b21a063c2a529cc34cfb40e83a73b9ae35975d",
+    "vendoredSha256": "b963eecba8cb52f2b09233ab8c0483ffead9e0469974d310ad0841a622d3e96c"
+  },
+  "https://cdn.sheetjs.com/xlsx-0.20.3/package/xlsx.mjs": {
+    "file": "9ff26da861539cadf028.mjs",
+    "sha256": "1a0fb062ee9781b13f6687371b202aaefc53b6ce55b530c027e01f9c087b77db",
+    "vendoredSha256": "1a0fb062ee9781b13f6687371b202aaefc53b6ce55b530c027e01f9c087b77db"
+  },
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs": {
+    "file": "5d7045df35c11cd12cb2.mjs",
+    "sha256": "27fc2a057a00f92a4334ad06e17dbd7259912954e9fb7f76400bcca5fd190a9c",
+    "vendoredSha256": "27fc2a057a00f92a4334ad06e17dbd7259912954e9fb7f76400bcca5fd190a9c"
+  },
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.worker.min.mjs": {
+    "file": "e9ca1c414ffd2a377d9b.mjs",
+    "sha256": "1baa1844c89c80a5b2797c916e75ab29254be46d8e9cb53cb6364d7aad84be36",
+    "vendoredSha256": "1baa1844c89c80a5b2797c916e75ab29254be46d8e9cb53cb6364d7aad84be36"
+  }
+}

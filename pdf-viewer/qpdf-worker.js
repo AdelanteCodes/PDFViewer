@@ -1,4 +1,4 @@
-import createModule from 'https://cdn.jsdelivr.net/npm/qpdf-wasm-esm-embedded@1.1.1/qpdf.mjs';
+import createModule from './vendor/f2bb1ead804956fe7b9a.mjs';
 self.onmessage=async({data})=>{
   let module;
   try{let logs=[];module=await createModule({noInitialRun:true,print:()=>{},printErr:s=>logs.push(String(s))});module.FS.writeFile('/input.pdf',new Uint8Array(data.bytes));

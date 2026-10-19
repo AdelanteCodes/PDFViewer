@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import * as lib from 'pdf-lib';
+import * as lib from '../pdf-viewer/vendor/1b66d097fa5b86e8ecea.mjs';
 import {pageNumbers,splitGroups,transformPdf,mergePdfs} from '../pdf-viewer/pdf-core.js';
 import {combineTables,headingRow,sheetName} from '../pdf-viewer/excel-core.js';
 import {parseAwbPage,awbDatasets} from '../pdf-viewer/awb.js';

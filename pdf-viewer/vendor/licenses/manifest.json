@@ -1,0 +1,170 @@
+[
+  {
+    "package": "@babel/runtime@7.25.6",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/@babel/runtime@7.25.6/",
+    "notice": "_babel_runtime_7.25.6.txt"
+  },
+  {
+    "package": "@pdf-lib/standard-fonts@1.0.0",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/@pdf-lib/standard-fonts@1.0.0/",
+    "notice": "_pdf-lib_standard-fonts_1.0.0.txt"
+  },
+  {
+    "package": "@pdf-lib/upng@1.0.1",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/@pdf-lib/upng@1.0.1/",
+    "notice": "_pdf-lib_upng_1.0.1.txt"
+  },
+  {
+    "package": "canvg@4.0.3",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/canvg@4.0.3/",
+    "notice": "canvg_4.0.3.txt"
+  },
+  {
+    "package": "docx@9.1.1",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/docx@9.1.1/",
+    "notice": "docx_9.1.1.txt"
+  },
+  {
+    "package": "dompurify@3.4.17",
+    "license": "(MPL-2.0 OR Apache-2.0)",
+    "source": "https://cdn.jsdelivr.net/npm/dompurify@3.4.17/",
+    "notice": "dompurify_3.4.17.txt"
+  },
+  {
+    "package": "fflate@0.8.2",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/fflate@0.8.2/",
+    "notice": "fflate_0.8.2.txt"
+  },
+  {
+    "package": "html2canvas@1.4.1",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/",
+    "notice": "html2canvas_1.4.1.txt"
+  },
+  {
+    "package": "is-electron@2.2.2",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/is-electron@2.2.2/",
+    "notice": "is-electron_2.2.2.txt"
+  },
+  {
+    "package": "jspdf@2.5.2",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/jspdf@2.5.2/",
+    "notice": "jspdf_2.5.2.txt"
+  },
+  {
+    "package": "jszip@3.10.1",
+    "license": "(MIT OR GPL-3.0-or-later)",
+    "source": "https://cdn.jsdelivr.net/npm/jszip@3.10.1/",
+    "notice": "jszip_3.10.1.txt"
+  },
+  {
+    "package": "mammoth@1.8.0",
+    "license": "BSD-2-Clause",
+    "source": "https://cdn.jsdelivr.net/npm/mammoth@1.8.0/",
+    "notice": "mammoth_1.8.0.txt"
+  },
+  {
+    "package": "pako@1.0.10",
+    "license": "(MIT AND Zlib)",
+    "source": "https://cdn.jsdelivr.net/npm/pako@1.0.10/",
+    "notice": "pako_1.0.10.txt"
+  },
+  {
+    "package": "pako@1.0.11",
+    "license": "(MIT AND Zlib)",
+    "source": "https://cdn.jsdelivr.net/npm/pako@1.0.11/",
+    "notice": "pako_1.0.11.txt"
+  },
+  {
+    "package": "pdf-lib@1.17.1",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/",
+    "notice": "pdf-lib_1.17.1.txt"
+  },
+  {
+    "package": "pdfjs-dist@4.10.38",
+    "license": "Apache-2.0",
+    "source": "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/",
+    "notice": "pdfjs-dist_4.10.38.txt"
+  },
+  {
+    "package": "performance-now@2.1.0",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/performance-now@2.1.0/",
+    "notice": "performance-now_2.1.0.txt"
+  },
+  {
+    "package": "pptxgenjs@3.12.0",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/",
+    "notice": "pptxgenjs_3.12.0.txt"
+  },
+  {
+    "package": "qpdf-wasm-esm-embedded@1.1.1",
+    "license": "Apache-2.0",
+    "source": "https://cdn.jsdelivr.net/npm/qpdf-wasm-esm-embedded@1.1.1/",
+    "notice": "qpdf-wasm-esm-embedded_1.1.1.txt"
+  },
+  {
+    "package": "raf@3.4.1",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/raf@3.4.1/",
+    "notice": "raf_3.4.1.txt"
+  },
+  {
+    "package": "regenerator-runtime@0.13.11",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/regenerator-runtime@0.13.11/",
+    "notice": "regenerator-runtime_0.13.11.txt"
+  },
+  {
+    "package": "rgbcolor@1.0.1",
+    "license": "MIT OR SEE LICENSE IN FEEL-FREE.md",
+    "source": "https://cdn.jsdelivr.net/npm/rgbcolor@1.0.1/",
+    "notice": "rgbcolor_1.0.1.txt"
+  },
+  {
+    "package": "stackblur-canvas@2.7.0",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/stackblur-canvas@2.7.0/",
+    "notice": "stackblur-canvas_2.7.0.txt"
+  },
+  {
+    "package": "svg-pathdata@6.0.3",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/svg-pathdata@6.0.3/",
+    "notice": "svg-pathdata_6.0.3.txt"
+  },
+  {
+    "package": "tesseract.js@5.1.1",
+    "license": "Apache-2.0",
+    "source": "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/",
+    "notice": "tesseract.js_5.1.1.txt"
+  },
+  {
+    "package": "tslib@1.14.1",
+    "license": "0BSD",
+    "source": "https://cdn.jsdelivr.net/npm/tslib@1.14.1/",
+    "notice": "tslib_1.14.1.txt"
+  },
+  {
+    "package": "utif@3.1.0",
+    "license": "MIT",
+    "source": "https://cdn.jsdelivr.net/npm/utif@3.1.0/",
+    "notice": "utif_3.1.0.txt"
+  },
+  {
+    "package": "xlsx@0.20.3",
+    "license": "Apache-2.0",
+    "source": "https://cdn.sheetjs.com/xlsx-0.20.3/package/",
+    "notice": "xlsx_0.20.3.txt"
+  }
+]
