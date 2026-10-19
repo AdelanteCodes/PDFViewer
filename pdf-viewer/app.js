@@ -124,3 +124,5 @@ function offerExport({blob,filename}){
  link.href=preparedExportUrl;link.download=filename;link.textContent=`Save ${filename.endsWith('.xlsx')?'Excel':'PDF'} file`;
  status('Export prepared. Use the Save file link beside the export buttons to download it.');
 }
+
+if(new URLSearchParams(location.search).has('workspace'))document.body.classList.add('embedded-extraction');

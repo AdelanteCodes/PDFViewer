@@ -1,4 +1,4 @@
-# Browser workspace beta
+# Browser PDF studio
 
 See [the feature matrix](features.html) for current complete, limited and pending behavior. The existing 0.4 Windows download remains unchanged; the workspace enhancements below are website changes.
 
@@ -12,7 +12,11 @@ See [the feature matrix](features.html) for current complete, limited and pendin
 - Excel heading mapping and optional duplicate removal (data columns only; first source wins). Separate-tab mode retains all rows.
 - Pinned vendored modules, upstream license notices, offline checksum verification and automated regression checks.
 
-No full Sejda parity claim: arbitrary native text/image editing and accurate editable Office layout reconstruction remain pending. Phone hardware and the full browser matrix require external device verification.
+Native horizontal text editing uses MuPDF.js 1.28.1 (AGPL-3.0-or-later) to remove original glyphs, then writes selectable replacement text. Standard-font substitution, no paragraph reflow, and no arbitrary original image editing. The PDF app is distributed under the compatible license in LICENSE, with corresponding source in this repository.
+
+The main PDF route is now document-first. Previous tools/workspace URLs redirect here; extraction remains available in extract.html and inside the workspace. Pending edits must be applied or discarded before changing document tools.
+
+No full Sejda parity claim: arbitrary original image editing, paragraph reflow and accurate editable Office layout reconstruction remain pending. Phone hardware and the full browser matrix require external device verification.
 
 # PDF Viewer 0.4 Beta
 

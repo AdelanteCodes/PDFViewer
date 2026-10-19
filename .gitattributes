@@ -11,3 +11,6 @@
 *.txt text eol=lf
 .gitattributes text eol=lf
 pdf-viewer/vendor/** -whitespace
+
+*.wasm binary
+*.ts text eol=lf

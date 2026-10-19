@@ -16,9 +16,12 @@ for file in site.glob('*.js'):
 licenses=json.loads((site/'vendor/licenses/manifest.json').read_text())
 assert len(licenses)>=25,'Missing transitive license manifest'
 for item in licenses:assert (site/'vendor/licenses'/item['notice']).is_file(),item['package']
-for name in ['workspace.html','editor.html','excel-merge.html','index.html']:
+for name in ['extract.html','editor.html','excel-merge.html','index.html']:
     text=(site/name).read_text(encoding='utf-8')
     assert 'Content-Security-Policy' in text,name+' missing CSP'
     ids=re.findall(r'\bid="([^"]+)"',text)
     assert len(ids)==len(set(ids)),name+' duplicate IDs'
 print(f'Verified {len(entries)} bundled assets, {len(licenses)} license notices and application entry points.')
+
+for name,digest in json.loads((site/"vendor/mupdf/checksums.json").read_text()).items():
+    assert hashlib.sha256((site/"vendor/mupdf"/name).read_bytes()).hexdigest()==digest,name+" MuPDF checksum mismatch"

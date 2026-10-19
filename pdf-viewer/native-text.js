@@ -1,0 +1,4 @@
+// Browser-only native text removal. MuPDF is loaded only when an original span is edited.
+export function removeOriginalText(bytes,edits,signal){
+ return new Promise((resolve,reject)=>{const worker=new Worker(new URL('./native-text-worker.js',import.meta.url),{type:'module'});const timer=setTimeout(()=>{worker.terminate();reject(Error('Native editing timed out. Try fewer pages.'));},90000);const abort=()=>{finish();reject(Error('Native editing cancelled. Your document is unchanged.'));};const finish=()=>{clearTimeout(timer);worker.terminate();signal?.removeEventListener('abort',abort);};signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted){abort();return;}worker.onmessage=({data})=>{finish();data.error?reject(Error(data.error)):resolve(data.bytes);};worker.onerror=e=>{finish();reject(Error(e.message||'Native PDF engine could not load.'));};worker.postMessage({bytes:bytes.slice(),edits});});
+}

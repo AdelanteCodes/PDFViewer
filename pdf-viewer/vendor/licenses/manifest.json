@@ -166,5 +166,11 @@
     "license": "Apache-2.0",
     "source": "https://cdn.sheetjs.com/xlsx-0.20.3/package/",
     "notice": "xlsx_0.20.3.txt"
+  },
+  {
+    "package": "mupdf@1.28.1",
+    "license": "AGPL-3.0-or-later",
+    "source": "https://www.npmjs.com/package/mupdf/v/1.28.1",
+    "notice": "mupdf_1.28.1.txt"
   }
 ]
