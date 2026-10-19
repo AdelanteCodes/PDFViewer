@@ -1,4 +1,5 @@
 import './compatibility.js';
+import {imagePlacement} from './image-placement.js';
 import {mountStamps} from './stamps.js';
 import {rebuildImagePage} from './raster-page.js';
 import {rgbValue} from './pdf-core.js';
@@ -66,7 +67,7 @@ function ascii(text){return String(text);}
 async function vectorEdit(out,page,op,v,index){
  const L=lib,point=p=>v.convertToPdfPoint(p[0]*v.width,p[1]*v.height),a=point(op.a),b=point(op.b),x=Math.min(a[0],b[0]),y=Math.min(a[1],b[1]),w=Math.max(12,Math.abs(a[0]-b[0])),h=Math.max(12,Math.abs(a[1]-b[1])),color=L.rgb(...rgbValue(op.color));
  if(op.kind==='text'){const font=await out.embedFont(op.font);page.drawText(ascii(op.text),{x:a[0],y:a[1]-op.fontSize,size:op.fontSize,font,color});}
- else if(op.kind==='image'){const img=await out.embedPng(op.data),width=op.width*v.width,height=op.height*v.height;page.drawImage(img,{x:a[0],y:a[1]-height,width,height});}
+ else if(op.kind==='image'){const img=await out.embedPng(op.data),{angle,...placement}=imagePlacement(v,op);page.drawImage(img,{...placement,rotate:L.degrees(angle)});}
  else if(op.kind==='ink'){for(let i=1;i<op.points.length;i++){const p=point(op.points[i-1]),q=point(op.points[i]);page.drawLine({start:{x:p[0],y:p[1]},end:{x:q[0],y:q[1]},thickness:op.lineWidth,color});}}
  else if(op.kind==='ellipse')page.drawEllipse({x:x+w/2,y:y+h/2,xScale:w/2,yScale:h/2,borderColor:color,borderWidth:op.lineWidth});
  else if(op.kind==='strike')page.drawLine({start:{x,y:y+h/2},end:{x:x+w,y:y+h/2},thickness:op.lineWidth,color});
