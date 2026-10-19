@@ -28,7 +28,7 @@ SheetJS disclosure: Copyright (C) 2012-present SheetJS LLC. Licensed under the A
 
 Official Artifex npm distribution, pinned under `vendor/mupdf/`; SHA-256 files in `checksums.json`. AGPL-3.0-or-later. The PDF app is distributed under the compatible license in `LICENSE`; source is public in this repository. This licensing applies to the PDF app, not unrelated site projects. Loaded locally in a dedicated worker only for native text edits.
 
-The application source is available at https://github.com/AdelanteCodes/xe-mod-site/tree/main/pdf-viewer. MuPDF upstream source and build instructions: https://github.com/ArtifexSoftware/mupdf.js and https://github.com/ArtifexSoftware/mupdf. No changes were made to the vendored MuPDF distribution.
+The application source is available at https://github.com/AdelanteCodes/PDFViewer/tree/main/pdf-viewer. MuPDF upstream source and build instructions: https://github.com/ArtifexSoftware/mupdf.js and https://github.com/ArtifexSoftware/mupdf. No changes were made to the vendored MuPDF distribution.
 
 ## Optional local semantic AI
 
