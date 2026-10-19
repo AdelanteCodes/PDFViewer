@@ -29,3 +29,9 @@ SheetJS disclosure: Copyright (C) 2012-present SheetJS LLC. Licensed under the A
 Official Artifex npm distribution, pinned under `vendor/mupdf/`; SHA-256 files in `checksums.json`. AGPL-3.0-or-later. The PDF app is distributed under the compatible license in `LICENSE`; source is public in this repository. This licensing applies to the PDF app, not unrelated site projects. Loaded locally in a dedicated worker only for native text edits.
 
 The application source is available at https://github.com/AdelanteCodes/xe-mod-site/tree/main/pdf-viewer. MuPDF upstream source and build instructions: https://github.com/ArtifexSoftware/mupdf.js and https://github.com/ArtifexSoftware/mupdf. No changes were made to the vendored MuPDF distribution.
+
+## Optional local semantic AI
+
+Transformers.js 2.17.2 (Apache-2.0), ONNX Runtime Web 1.14.0 (MIT, bundled third-party notices), Hugging Face Jinja 0.2.2 (MIT). Official npm browser distribution copied unchanged into vendor/ai; SHA-256 files in checksums.json. This is a separately pinned prebuilt browser bundle; it is not rebuilt by vendor_browser.py. SIMD and non-SIMD single-thread WASM runtimes are bundled locally. Node-only dependencies are not used.
+
+The optional English MiniLM model is Xenova/all-MiniLM-L6-v2, revision 751bff37182d3f1213fa05d7196b954e230abad9 (Apache-2.0), downloaded from Hugging Face only after the user enables it. Model card/license: https://huggingface.co/Xenova/all-MiniLM-L6-v2. Public models may be browser-cached. Document text stays in the worker's memory; no hosted inference API, telemetry or document upload is used.

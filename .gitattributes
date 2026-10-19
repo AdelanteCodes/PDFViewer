@@ -14,3 +14,5 @@ pdf-viewer/vendor/** -whitespace
 
 *.wasm binary
 *.ts text eol=lf
+
+pdf-viewer/vendor/**/LICENSE text eol=lf

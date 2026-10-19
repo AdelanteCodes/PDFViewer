@@ -1,42 +1,17 @@
 import {listStamps,saveStamp,removeStamp} from './stamp-store.js';
-const $=id=>document.getElementById(id);
-const LAST='pdf-last-stamp';
-const getLast=()=>{try{return localStorage.getItem(LAST);}catch{return null;}};
-const remember=id=>{try{id?localStorage.setItem(LAST,id):localStorage.removeItem(LAST);}catch{}};
-const dataUrl=blob=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(Error('Could not read this stamp.'));reader.readAsDataURL(blob);});
-export function mountStamps({activate,deactivate,status}){
-  let records=[],active=null,selectionVersion=0;
-  async function select(record,{announce=true}={}){
-    const token=++selectionVersion;
-    if(!record){active=null;remember(null);$('remove-stamp').disabled=true;deactivate();return;}
-    const image=new Image(),url=URL.createObjectURL(record.blob);
-    try{image.src=url;await image.decode();const data=await dataUrl(record.blob);if(token!==selectionVersion)return;active=record;$('remove-stamp').disabled=false;remember(record.id);$('saved-stamps').value=record.id;activate({image,data,ratio:image.naturalHeight/image.naturalWidth,name:record.name});if(announce)status(`“${record.name}” stamp ready. Click the page to place it; click again to reuse it.`);}finally{URL.revokeObjectURL(url);}
-  }
-  function menu(){
-    $('saved-stamps').replaceChildren(new Option('Choose a saved stamp',''));
-    for(const record of records)$('saved-stamps').append(new Option(record.name,record.id));
-    if(active)$('saved-stamps').value=active.id;
-    $('remove-stamp').disabled=!active;
-  }
-  async function add(blob,name){
-    const record={id:crypto.randomUUID(),name,blob,createdAt:Date.now()};await saveStamp(record);records=await listStamps();menu();await select(record);$('remove-stamp').disabled=false;
-  }
-  const run=fn=>async()=>{try{await fn();}catch(e){status(e.message||'Could not load the stamp.',true);}};
-  $('saved-stamps').onchange=run(async()=>{await select(records.find(record=>record.id===$('saved-stamps').value));$('remove-stamp').disabled=!active;});
-  $('use-stamp').onclick=run(async()=>{const record=records.find(record=>record.id===$('saved-stamps').value)||active;if(!record)throw Error('Add or choose a saved stamp first.');await select(record);});
-  $('remove-stamp').onclick=run(async()=>{if(!active)return;await removeStamp(active.id);await select(null);records=await listStamps();menu();status('Stamp removed from this browser. Stamps already placed in your PDF are unchanged.');});
-  $('stamp-image').onchange=run(async()=>{
-    const file=$('stamp-image').files[0];if(!file)return;
-    if(file.size>5*1024*1024)throw Error('Choose a stamp image up to 5 MiB.');
-    const url=URL.createObjectURL(file),image=new Image(),canvas=document.createElement('canvas');
-    try{image.src=url;await image.decode();if(image.naturalWidth*image.naturalHeight>20000000)throw Error('Resize this image before saving it as a stamp.');const scale=Math.min(1,1600/Math.max(image.naturalWidth,image.naturalHeight));canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(!blob)throw Error('Could not prepare the stamp image.');await add(blob,$('stamp-name').value.trim()||file.name.replace(/\.[^.]+$/,''));$('stamp-image').value='';}finally{URL.revokeObjectURL(url);canvas.width=0;canvas.height=0;}
-  });
-  async function textStamp(text){
-    if(!text.trim())throw Error('Enter the stamp text first.');
-    const canvas=document.createElement('canvas');canvas.width=1000;canvas.height=250;const ctx=canvas.getContext('2d');ctx.strokeStyle=ctx.fillStyle=$('stamp-color').value;ctx.lineWidth=10;ctx.strokeRect(10,10,980,230);ctx.font='bold 100px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text.trim(),500,125,920);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));canvas.width=0;canvas.height=0;if(!blob)throw Error('Could not prepare the text stamp.');await add(blob,text.trim());
-  }
-  $('create-text-stamp').onclick=run(() =>textStamp($('stamp-name').value.slice(0,60)));
-  for(const button of document.querySelectorAll('[data-stamp-preset]'))button.onclick=run(async()=>{const text=button.dataset.stampPreset,existing=records.find(record=>record.name===text);if(existing)await select(existing);else await textStamp(text);});
-  const ready=(async()=>{try{records=await listStamps();menu();const last=records.find(record=>record.id===getLast());if(last){await select(last,{announce:false});$('remove-stamp').disabled=false;}}catch(e){status(e.message,true);}})();
-  return {async restore(){await ready;if(active)await select(active,{announce:false});}};
+const $=id=>document.getElementById(id),LAST='pdf-last-stamp';const remember=id=>{try{id?localStorage.setItem(LAST,id):localStorage.removeItem(LAST);}catch{}};const last=()=>{try{return localStorage.getItem(LAST);}catch{return null;}};const dataUrl=blob=>new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(Error('Could not read stamp'));r.readAsDataURL(blob);});
+export function mountStamps({activate,deactivate,status}){let records=[],active=null,version=0,urls=[];
+ const run=fn=>async()=>{try{await fn();}catch(e){status(e.message,true);}};
+ async function select(record,{arm=true}={}){const token=++version;if(!record){active=null;remember(null);deactivate();menu();return;}const image=new Image(),url=URL.createObjectURL(record.blob);try{image.src=url;await image.decode();const data=await dataUrl(record.blob);if(token!==version)return;active=record;remember(record.id);$('stamp-name').value=record.name;$('stamp-color').value=record.color||'#b52d3b';menu();activate({image,data,ratio:image.naturalHeight/image.naturalWidth,name:record.name,isStamp:true,stampId:record.id,assetVersion:record.updatedAt||record.createdAt,armed:arm});if(arm)status('Click the PDF once to place '+record.name+'. Then drag or resize it. Right-click the placed stamp for Delete.');}finally{URL.revokeObjectURL(url);}}
+ function menu(){for(const url of urls)URL.revokeObjectURL(url);urls=[];$('stamp-library').replaceChildren();$('saved-stamps').replaceChildren(new Option('Choose a saved stamp',''));for(const record of records){$('saved-stamps').append(new Option(record.name,record.id));const b=document.createElement('button'),img=document.createElement('img'),label=document.createElement('span');b.className='stamp-card secondary';b.setAttribute('aria-label','Use stamp '+record.name);b.setAttribute('aria-pressed',String(active?.id===record.id));const url=URL.createObjectURL(record.blob);urls.push(url);img.src=url;img.alt='';label.textContent=record.name;b.append(img,label);b.onclick=run(()=>select(record));$('stamp-library').append(b);}if(!records.length)$('stamp-library').textContent='Add an image or create a text stamp. It saves here automatically.';$('saved-stamps').value=active?.id||'';$('remove-stamp').disabled=$('update-stamp').disabled=!active;}
+ async function save(blob,name,extra={},replace=false){const record={...(replace?active:{}),id:replace?active.id:crypto.randomUUID(),name,blob,createdAt:replace?active.createdAt:Date.now(),updatedAt:Date.now(),...extra};await saveStamp(record);records=await listStamps();await select(record);}
+ async function imageBlob(file){if(file.size>5*1024*1024)throw Error('Choose an image up to 5 MiB.');const img=new Image(),url=URL.createObjectURL(file),c=document.createElement('canvas');try{img.src=url;await img.decode();if(img.naturalWidth*img.naturalHeight>20000000)throw Error('Resize the image first.');const scale=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));c.width=Math.max(1,Math.round(img.naturalWidth*scale));c.height=Math.max(1,Math.round(img.naturalHeight*scale));c.getContext('2d').drawImage(img,0,0,c.width,c.height);const blob=await new Promise(r=>c.toBlob(r,'image/png'));if(!blob)throw Error('Cannot prepare stamp image.');return blob;}finally{URL.revokeObjectURL(url);c.width=0;}}
+ async function textBlob(text){if(!text.trim())throw Error('Enter stamp text.');const c=document.createElement('canvas');c.width=1000;c.height=250;const ctx=c.getContext('2d');ctx.fillStyle=ctx.strokeStyle=$('stamp-color').value;ctx.lineWidth=10;ctx.strokeRect(10,10,980,230);ctx.font='bold 100px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(text.trim(),500,125,920);const blob=await new Promise(r=>c.toBlob(r,'image/png'));c.width=0;if(!blob)throw Error('Cannot create stamp.');return blob;}
+ $('stamp-image').onchange=run(async()=>{const f=$('stamp-image').files[0];if(f){await save(await imageBlob(f),$('stamp-name').value.trim()||f.name.replace(/\.[^.]+$/,''),{kind:'image'});$('stamp-image').value='';}});
+ $('create-text-stamp').onclick=run(async()=>{const text=$('stamp-name').value.trim().slice(0,60);await save(await textBlob(text),text,{kind:'text',color:$('stamp-color').value});});
+ $('update-stamp').onclick=run(async()=>{if(!active)return;const name=$('stamp-name').value.trim();if(!name)throw Error('Enter a stamp name.');await save(active.kind==='text'?await textBlob(name):active.blob,name,{kind:active.kind,color:$('stamp-color').value},true);status('Saved stamp updated. Existing PDF placements remain independent. Click the saved card to place the updated version.');});
+ $('replace-stamp-image').onchange=run(async()=>{if(!active)throw Error('Choose a saved stamp first.');const f=$('replace-stamp-image').files[0];if(f){await save(await imageBlob(f),$('stamp-name').value.trim()||active.name,{kind:'image'},true);$('replace-stamp-image').value='';}});
+ $('saved-stamps').onchange=run(()=>select(records.find(r=>r.id===$('saved-stamps').value)));$('use-stamp').onclick=run(()=>select(active||records.find(r=>r.id===$('saved-stamps').value)));$('remove-stamp').onclick=run(async()=>{if(!active)return;await removeStamp(active.id);records=await listStamps();await select(null);status('Removed from saved library. Placed PDF stamps remain.');});
+ for(const b of document.querySelectorAll('[data-stamp-preset]'))b.onclick=run(async()=>{const text=b.dataset.stampPreset,record=records.find(r=>r.name===text);if(record)await select(record);else await save(await textBlob(text),text,{kind:'text',color:$('stamp-color').value});});
+ const ready=(async()=>{try{records=await listStamps();menu();const record=records.find(r=>r.id===last());if(record)await select(record,{arm:false});}catch(e){status(e.message,true);}})();return {async restore(){await ready;if(active)await select(active,{arm:false});}};
 }

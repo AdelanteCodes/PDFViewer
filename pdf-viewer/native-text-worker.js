@@ -1,5 +1,5 @@
-self.onmessage=async({data})=>{let doc;try{const mupdf=await import('./vendor/mupdf/mupdf.js');
- doc=mupdf.Document.openDocument(data.bytes,'application/pdf');
- for(const n of new Set(data.edits.map(e=>e.page))){const page=doc.loadPage(n-1);try{const annotations=page.getAnnotations();let pending=false;for(const a of annotations){pending ||= a.getType()==='Redact';a.destroy();}if(pending)throw Error('This page contains pending redaction annotations. Finish or remove them before editing original text.');const bounds=page.getBounds(),w=bounds[2]-bounds[0],h=bounds[3]-bounds[1];for(const edit of data.edits.filter(e=>e.page===n)){const r=edit.source;const a=page.createAnnotation('Redact');a.setRect([bounds[0]+r[0]*w,bounds[1]+r[1]*h,bounds[0]+r[2]*w,bounds[1]+r[3]*h]);a.update();a.destroy();}page.applyRedactions(false,mupdf.PDFPage.REDACT_IMAGE_NONE,mupdf.PDFPage.REDACT_LINE_ART_NONE,mupdf.PDFPage.REDACT_TEXT_REMOVE);}finally{page.destroy();}}
- const buffer=doc.saveToBuffer('garbage=4,compress');const bytes=buffer.asUint8Array().slice();buffer.destroy();self.postMessage({bytes},[bytes.buffer]);
+import {applyNativeEdits,findSourceFont} from './native-font-core.js';
+self.onmessage=async({data})=>{let doc;try{const mupdf=await import('./vendor/mupdf/mupdf.js');doc=mupdf.Document.openDocument(data.bytes,'application/pdf');
+ if(data.action==='font'){const page=doc.loadPage(data.page-1);try{const info=findSourceFont(mupdf,page,data.source);self.postMessage({info:{name:info.name,size:info.size,color:info.color}});info.st.destroy();}finally{page.destroy();}return;}
+ if(data.action!=='compact')applyNativeEdits(mupdf,doc,data.edits);const buffer=doc.saveToBuffer('garbage=4,compress');const bytes=buffer.asUint8Array().slice();buffer.destroy();self.postMessage({bytes},[bytes.buffer]);
  }catch(e){self.postMessage({error:e.message||String(e)});}finally{doc?.destroy();}};

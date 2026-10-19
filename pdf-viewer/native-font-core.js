@@ -1,0 +1,29 @@
+// Original PDF font reuse. No font guessing or silent substitution.
+export function findSourceFont(mupdf,page,source){
+ const b=page.getBounds(),w=b[2]-b[0],h=b[3]-b[1],r=[b[0]+source[0]*w,b[1]+source[1]*h,b[0]+source[2]*w,b[1]+source[3]*h];let found=null;const names=new Set();const st=page.toStructuredText('preserve-spans');
+ st.walk({onChar(c,origin,font,size,quad,color){if(c.trim()&&origin[0]>=r[0]-.5&&origin[0]<=r[2]+.5&&origin[1]>=r[1]&&origin[1]<=r[3]+.5){names.add(font.getName());found??={font,name:font.getName(),size,color:[...color]};}}});
+ if(!found||names.size!==1){st.destroy();throw Error('This span has mixed or unavailable fonts. Select a smaller span or explicitly choose a replacement font.');}if(!isStandard(found.name)&&!hasEmbeddedFont(page.getObject().getInheritable('Resources'),found.name)){st.destroy();throw Error('The source font is not embedded or cannot be verified. Choose a replacement font explicitly; no font substitution was made.');}return {...found,st};
+}
+export function applyNativeEdits(mupdf,doc,edits){
+ for(const n of new Set(edits.map(e=>e.page))){const page=doc.loadPage(n-1),held=[];try{
+ const annotations=page.getAnnotations();let pending=false;for(const a of annotations){pending ||= a.getType()==='Redact';a.destroy();}if(pending)throw Error('Finish or remove pending redaction annotations before editing original text.');
+ const bounds=page.getBounds(),w=bounds[2]-bounds[0],h=bounds[3]-bounds[1],items=edits.filter(e=>e.page===n),plans=[];
+ // Resolve every glyph before changing the document. A missing glyph aborts the whole operation.
+ for(const edit of items){if(edit.text===undefined)continue;let font,source;
+ if(!edit.font||edit.font==='Original'){source=findSourceFont(mupdf,page,edit.source);held.push(source.st);font=source.font;}else{font=new mupdf.Font(edit.font);held.push(font);}
+ const glyphs=[...edit.text].filter(c=>c!=='\n'&&c!=='\r').map(c=>[c,font.encodeCharacter(c)]);const missing=glyphs.filter(([c,g])=>g===0&&c.trim()).map(([c])=>c);
+ if(missing.length)throw Error(`The original font is missing these glyphs: ${[...new Set(missing)].join(' ')}. Choose an explicit replacement font; no substitution was made.`);
+ plans.push({edit,font,source});}
+ for(const edit of items){const r=edit.source,a=page.createAnnotation('Redact');a.setRect([bounds[0]+r[0]*w,bounds[1]+r[1]*h,bounds[0]+r[2]*w,bounds[1]+r[3]*h]);a.update();a.destroy();}
+ page.applyRedactions(false,mupdf.PDFPage.REDACT_IMAGE_NONE,mupdf.PDFPage.REDACT_LINE_ART_NONE,mupdf.PDFPage.REDACT_TEXT_REMOVE);
+ if(plans.length){const object=page.getObject(),old=object.getInheritable('Resources'),resources=doc.newDictionary(),fonts=doc.newDictionary();old.forEach((value,key)=>resources.put(key,value));const existing=old.get('Font');if(!existing.isNull())existing.forEach((value,key)=>fonts.put(key,value));resources.put('Font',fonts);object.put('Resources',resources);const inverse=mupdf.Matrix.invert(page.getTransform());let stream='q\n';
+ for(let i=0;i<plans.length;i++){const {edit,font,source}=plans[i],key='BhavyamFont'+i;const standard=/^(Helvetica(-Bold|-Oblique|-BoldOblique)?|Times-(Roman|Bold|Italic|BoldItalic)|Courier(-Bold|-Oblique|-BoldOblique)?)$/.test(source?.name||edit.font||'');const face=source?.name||edit.font;fonts.put(key,standard?doc.addObject({Type:doc.newName('Font'),Subtype:doc.newName('Type1'),BaseFont:doc.newName(face),Encoding:doc.newName('WinAnsiEncoding')}):doc.addFont(font));const size=edit.fontSize||source?.size||12;const rgb=edit.color?.match(/^#([a-f0-9]{6})$/i)?edit.color.slice(1).match(/../g).map(v=>parseInt(v,16)/255):source?.color?.length===3?source.color:[0,0,0];stream+=`${rgb.join(' ')} rg BT /${key} 1 Tf\n`;let x=bounds[0]+edit.a[0]*w,y=bounds[1]+edit.a[1]*h+size;const left=x;
+ for(const line of edit.text.replace(/\r/g,'').split('\n')){const matrix=mupdf.Matrix.concat([size,0,0,-size,left,y],inverse),hex=[...line].map(c=>(standard?winAnsi(c):font.encodeCharacter(c)).toString(16).padStart(standard?2:4,'0')).join('');stream+=`${matrix.join(' ')} Tm <${hex}> Tj\n`;y+=size*1.2;}stream+='ET\n';}stream+='Q\n';const contents=doc.newArray(),previous=object.get('Contents');if(previous.isArray())previous.forEach(v=>contents.push(v));else if(!previous.isNull())contents.push(previous);contents.push(doc.addStream(stream,{}));object.put('Contents',contents);}
+ }finally{held.forEach(x=>x.destroy());page.destroy();}}
+}
+
+function winAnsi(c){const n=c.codePointAt(0),extra=[8364,0,8218,402,8222,8230,8224,8225,710,8240,352,8249,338,0,381,0,0,8216,8217,8220,8221,8226,8211,8212,732,8482,353,8250,339,0,382,376];if(n<128||n>=160&&n<=255)return n;const i=extra.indexOf(n);if(i>=0)return 128+i;throw Error('This original standard font cannot encode '+c+'. Choose a replacement font explicitly.');}
+
+const isStandard=name=>/^(Helvetica(-Bold|-Oblique|-BoldOblique)?|Times-(Roman|Bold|Italic|BoldItalic)|Courier(-Bold|-Oblique|-BoldOblique)?)$/.test(name);
+const fontName=name=>name.replace(/^[A-Z]{6}\+/,'').replace(/[^a-z0-9]/gi,'').toLowerCase();
+function hasEmbeddedFont(resources,name,depth=0){if(depth>8||resources.isNull())return false;let found=false;const wanted=fontName(name),fonts=resources.get('Font');if(!fonts.isNull())fonts.forEach(font=>{let candidate=font;const descendants=font.get('DescendantFonts');if(!descendants.isNull())candidate=descendants.get(0);const descriptor=candidate.get('FontDescriptor');if(descriptor.isNull())return;const names=[font.get('BaseFont'),candidate.get('BaseFont'),descriptor.get('FontName')].filter(v=>v.isName()).map(v=>fontName(v.asName()));if(names.includes(wanted)&&['FontFile','FontFile2','FontFile3'].some(key=>!descriptor.get(key).isNull()))found=true;});if(found)return true;const xobjects=resources.get('XObject');if(!xobjects.isNull())xobjects.forEach(x=>{if(!found)found=hasEmbeddedFont(x.get('Resources'),name,depth+1);});return found;}

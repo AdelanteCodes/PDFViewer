@@ -1,3 +1,4 @@
+import {mountAssistant} from './assistant.js';
 const $=id=>document.getElementById(id);
 const readSettings=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}};
 const storeSettings=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}};
@@ -5,6 +6,7 @@ const chainable=new Set(['merge','alternate','organize','delete','extract','half
 export function mountWorkspace(api){
   const {configs,session,status}=api;
   let editorDirty=false,downloadAfterSave=false;let exportUrl=null;let doc=null,page=1,version=0,paintVersion=0,renderTask=null,steps=[],running=false,observer=null;
+  const assistant=mountAssistant({getDocument:()=>doc,getRevision:()=>session.current?.revision,selectTool(id){if(!canLeaveEditor())return;closeSurface();api.select(id);selected(configs.find(c=>c.id===id));},goToPage(n){if(!canLeaveEditor())return;closeSurface();page=n;draw();}});
   const selection=new Set();let recent=readSettings('pdf-recent',[]);if(!Array.isArray(recent))recent=[];
   let saved=readSettings('pdf-workflows',[]);if(!Array.isArray(saved))saved=[];
   for(const group of new Set(configs.map(c=>c.group))){const o=new Option(group,group);$('category').append(o);}
@@ -39,6 +41,7 @@ export function mountWorkspace(api){
     if(token!==version||paintToken!==paintVersion)return;$('preview-page').value=page;$('previous-page').disabled=page<=1;$('next-page').disabled=page>=target.numPages;
   }
   async function refresh(){
+    assistant.changed();
     if(exportUrl){URL.revokeObjectURL(exportUrl);exportUrl=null;}$('workspace-export')?.remove();const token=++version;observer?.disconnect();renderTask?.cancel();await doc?.destroy();doc=null;selection.clear();$('page-list').replaceChildren();
     $('undo').disabled=session.cursor<=0;$('redo').disabled=session.cursor>=session.entries.length-1;
     const entry=session.current;document.body.classList.toggle('has-document',!!entry);if(entry&&document.body.classList.contains('editor-open'))$('editor-frame').contentWindow?.postMessage({type:'pdf-open',bytes:entry.bytes.slice(),name:entry.name,revision:entry.revision},location.origin);
@@ -102,6 +105,7 @@ export function mountWorkspace(api){
   $('edit-current').onclick=guarded(()=>openEditor());
   $('extract-current').onclick=guarded(()=>openUtility('extract.html?workspace=1','Extract & review'));
   $('sidebar-extract').onclick=$('extract-current').onclick;
+  $('sidebar-compare').onclick=()=>openUtility('compare.html?workspace=1','Compare PDF text');
   $('sidebar-excel').onclick=$('start-excel').onclick=()=>openUtility('excel-merge.html?studio=1','Combine Excel files');
   $('close-editor').onclick=()=>{if(canLeaveEditor())closeSurface();};
   $('apply-editor').onclick=requestSave;
