@@ -1,4 +1,5 @@
 import './compatibility.js';
+import {mountStamps} from './stamps.js';
 import {rebuildImagePage} from './raster-page.js';
 import {rgbValue} from './pdf-core.js';
 const $=id=>document.getElementById(id),canvas=$('canvas');let workspaceRevision=null;let bytes,doc,lib,js,pageNo=1,viewport,ops=[],forms=[],drawing=null,bg=null,imageData=null,rendering=false,renderVersion=0,selected=-1,moving=null,history=[],future=[],linkUpdates=new Map();
@@ -14,7 +15,7 @@ $('delete-edit').onclick=()=>{if(selected<0)return;remember();ops.splice(selecte
 $('resize-edit').onclick=()=>{if(selected<0)return;const op=ops[selected],w=Number($('edit-width').value)/100,h=Number($('edit-height').value)/100;if(!(w>0&&w<=1&&h>0&&h<=1)){status('Choose dimensions from 1% to 100%.',true);return;}remember();const r=rect(op);if(op.kind==='image'){op.width=w;op.height=h;}else if(op.kind==='ink'){op.points=op.points.map(p=>[op.a[0]+(p[0]-op.a[0])*w/(r[2]||.01),op.a[1]+(p[1]-op.a[1])*h/(r[3]||.01)]);}op.b=[op.a[0]+w,op.a[1]+h];redraw();};
 async function libs(){lib??=await import('./vendor/1b66d097fa5b86e8ecea.mjs');if(!js){js=await import('./vendor/5d7045df35c11cd12cb2.mjs');js.GlobalWorkerOptions.workerSrc='./pdfjs-worker.js';}}
 function status(message,error=false){$('status').textContent=message;$('status').classList.toggle('error',error);}
-async function load(data){await libs();await doc?.destroy();bytes=new Uint8Array(data);doc=await js.getDocument({data:bytes.slice()}).promise;pageNo=1;ops=[];forms=[];history=[];future=[];linkUpdates.clear();selected=-1;$('page').max=String(doc.numPages);$('workspace').hidden=false;await inspectForms();await render();status(`Opened ${doc.numPages} pages. Original files are unchanged.`);}
+async function load(data){await libs();await doc?.destroy();bytes=new Uint8Array(data);doc=await js.getDocument({data:bytes.slice()}).promise;pageNo=1;ops=[];forms=[];history=[];future=[];linkUpdates.clear();selected=-1;$('page').max=String(doc.numPages);$('workspace').hidden=false;await inspectForms();await render();await stamps.restore();status(`Opened ${doc.numPages} pages. Original files are unchanged.`);}
 $('open').onclick=async()=>{const f=$('file').files[0];if(!f){status('Choose a PDF first.',true);return;}if(f.size>100*1024*1024){status('Choose a PDF up to 100 MiB.',true);return;}$('open').disabled=true;try{await load(await f.arrayBuffer());}catch(e){status(e.message||'Could not open this PDF.',true);}finally{$('open').disabled=false;}};
 $('blank').onclick=async()=>{try{await libs();const d=await lib.PDFDocument.create();d.addPage([595,842]);await load(await d.save());}catch(e){status(e.message,true);}};
 async function inspectForms(){
@@ -104,3 +105,5 @@ async function inspectLinks(){
 $('existing-links').onchange=()=>{$('existing-link-url').value=$('existing-links').selectedOptions[0]?.textContent||'';};
 $('update-existing-link').onclick=()=>{const key=$('existing-links').value,url=$('existing-link-url').value.trim();if(!key||!/^https?:\/\//i.test(url)){status('Choose a link and enter an HTTP or HTTPS URL.',true);return;}linkUpdates.set(key,url);inspectLinks();status('Link target updated. Apply or download to save.');};
 for(const [id,position] of [['align-left',0],['align-center',.5],['align-right',1]])$(id).onclick=()=>{if(selected<0)return;remember();const op=ops[selected],r=rect(op),dx=(1-r[2])*position-r[0];op.a[0]+=dx;op.b[0]+=dx;if(op.points)op.points=op.points.map(p=>[p[0]+dx,p[1]]);redraw();};
+
+const stamps=mountStamps({status,activate(value){imageData=value;selected=-1;$('tool').value='image';updateTool();redraw();$('active-stamp').textContent=`Ready: ${value.name}. Click the PDF to place this stamp. It stays selected for the next placement and the next PDF.`;},deactivate(){imageData=null;$('active-stamp').textContent='No stamp selected.';}});

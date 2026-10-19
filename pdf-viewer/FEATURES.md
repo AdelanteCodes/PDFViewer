@@ -6,6 +6,7 @@ See [the feature matrix](features.html) for current complete, limited and pendin
 - Compatible PDF operations chain without reuploading; reusable workflow settings save locally without documents or passwords. Failed/cancelled workflows retain completed steps.
 - Editor and extraction handoffs use same-origin messages and copied in-memory bytes. Stale editor results are rejected when the working document changes.
 - Image watermarks, bookmark depth and splitting when a literal labelled value changes.
+- Reusable image/text stamps persist in IndexedDB on this device. The last-used stamp restores automatically; PDFs themselves are not persisted.
 - Added-object resize handles/alignment, object redo and existing HTTP/HTTPS link target editing (link updates are outside object history).
 - Select OCR languages and extraction pages. Literal label mappings support per-page fields, source tracking, missing-value warnings and explicit corrections before export.
 - Excel heading mapping and optional duplicate removal (data columns only; first source wins). Separate-tab mode retains all rows.
