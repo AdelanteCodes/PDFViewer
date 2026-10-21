@@ -1,5 +1,5 @@
-import {applyNativeEdits,findSourceFont} from './native-font-core.js';
+import {applyNativeEdits,findSourceFont} from './native-font-core.js?v=0.6';
 self.onmessage=async({data})=>{let doc;try{const mupdf=await import('./vendor/mupdf/mupdf.js');doc=mupdf.Document.openDocument(data.bytes,'application/pdf');
- if(data.action==='font'){const page=doc.loadPage(data.page-1);try{const info=findSourceFont(mupdf,page,data.source);self.postMessage({info:{name:info.name,size:info.size,color:info.color}});info.st.destroy();}finally{page.destroy();}return;}
+ if(data.action==='font'){const page=doc.loadPage(data.page-1);try{const info=findSourceFont(mupdf,page,data.source);try{let fontBytes;if(!info.descriptor.isNull()){const program=info.descriptor.get('FontFile2');if(!program.isNull()){const b=program.readStream();fontBytes=b.asUint8Array().slice();b.destroy();}}self.postMessage({info:{name:info.name,size:info.size,color:info.color,fontBytes,glyphs:[...info.glyphs]}});}finally{info.st.destroy();}}finally{page.destroy();}return;}
  if(data.action!=='compact')applyNativeEdits(mupdf,doc,data.edits);const buffer=doc.saveToBuffer('garbage=4,compress');const bytes=buffer.asUint8Array().slice();buffer.destroy();self.postMessage({bytes},[bytes.buffer]);
  }catch(e){self.postMessage({error:e.message||String(e)});}finally{doc?.destroy();}};

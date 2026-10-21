@@ -26,3 +26,14 @@ Sources: [Acrobat](https://www.adobe.com/acrobat/features.html), [PDF-XChange Ed
 | Printing drivers, cloud accounts, review servers | Outside browser-only release | OS drivers and server-backed collaboration are not GitHub Pages features |
 
 Physical Android/iPhone testing and independent Windows Chrome/Edge/Safari checks remain pending. No claim that every feature from all three products is implemented.
+
+
+## 0.6 Beta: direct text editing and font fidelity
+
+Click horizontal PDF text and type in place. Done, Ctrl/Cmd+Enter, or clicking outside commits the editing session; Escape cancels it. Merely selecting text does not change the document. Undo/redo groups typing into one edit. Font appearance options remain under an advanced disclosure.
+
+Native replacement reuses the original PDF font object, embedded program, ToUnicode character mapping, color and text matrix. Custom single-byte subset encodings, including the locally tested AWB's Arial, Arial Bold and Arial Narrow Bold, no longer go through a guessed Helvetica or Unicode encoding. Original small and fractional font sizes are retained. Fonts unavailable in the PDF, ambiguous font resources, missing mappings or missing characters stop the supported native path. A manually selected replacement font is an explicit change, not an exact match.
+
+For embedded TrueType faces, a temporary in-memory browser preview font maps the page's actual glyph IDs for typing. Export retains the unchanged embedded font program. When a browser preview face is unavailable, a transparent typing layer uses the actual PDF-engine rendering underneath; a generic browser face is not painted over the source as a preview. Preview generation is asynchronous. No document fonts are uploaded or persistently saved.
+
+Editing remains span-based. It does not reflow paragraphs, recover an absent commercial font, guarantee every PDF encoding, or edit rotated text. Scanned text requires OCR. Physical iPhone/Android verification remains pending.

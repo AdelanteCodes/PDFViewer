@@ -4,7 +4,7 @@ Standalone source repository for the dark browser PDF workspace, extracted from 
 
 **[Open PDF Viewer](https://bhavyam.shop/pdf-viewer/)** · [Feature coverage](pdf-viewer/FEATURES.md) · [Editing limitations](pdf-viewer/EDITOR-COVERAGE.md)
 
-The stable browser release is **0.5**. The 0.6 Beta inline editing and font work remains in progress and is not included in this repository migration.
+The browser release is **0.6 Beta**. Click PDF text to edit directly on the page. AWB custom font encodings reuse the original font resources; missing character mappings stop export rather than selecting a substitute.
 
 ## Layout
 

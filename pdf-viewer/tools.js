@@ -1,6 +1,6 @@
 import './compatibility.js';
 import {DocumentSession,changedTextGroups} from './session.js';
-import {mountWorkspace} from './workspace.js';
+import {mountWorkspace} from './workspace.js?v=0.6';
 import {pageNumbers,splitGroups,transformPdf,mergePdfs,safeFilename} from './pdf-core.js';
 import {removeRuling} from './ocr-preprocess.js';
 const $=id=>document.getElementById(id);

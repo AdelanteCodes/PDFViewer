@@ -9,10 +9,10 @@ for url,item in entries.items():
     assert hashlib.sha256(file.read_bytes()).hexdigest()==item['vendoredSha256'],str(file)+' checksum mismatch'
     text=file.read_text(encoding='utf-8')
     for ref in re.findall(r'''(?:\bfrom\s*|\bimport\s*\(?\s*)["'](\./[^"']+)["']''',text):
-        assert (file.parent/ref).is_file(),str(file)+' missing '+ref
+        assert (file.parent/ref.split("?")[0]).is_file(),str(file)+' missing '+ref
 for file in site.glob('*.js'):
     for ref in re.findall(r'''(?:\bfrom\s*|\bimport\s*\(?\s*)["'](\./[^"']+)["']''',file.read_text(encoding='utf-8')):
-        assert (file.parent/ref).is_file(),str(file)+' missing '+ref
+        assert (file.parent/ref.split("?")[0]).is_file(),str(file)+' missing '+ref
 licenses=json.loads((site/'vendor/licenses/manifest.json').read_text())
 assert len(licenses)>=25,'Missing transitive license manifest'
 for item in licenses:assert (site/'vendor/licenses'/item['notice']).is_file(),item['package']

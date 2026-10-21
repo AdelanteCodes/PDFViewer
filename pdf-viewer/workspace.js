@@ -99,7 +99,7 @@ export function mountWorkspace(api){
   function openEditor(mode='text'){
     if(!session.current)return;document.body.classList.remove('utility-open');document.body.classList.add('editor-open');$('editor-panel').hidden=false;$('embedded-title').textContent='Edit your PDF';$('mode-label').textContent='Edit your PDF';$('editor-frame').title='PDF editor';
     if($('editor-frame').getAttribute('src')?.startsWith('editor.html'))$('editor-frame').contentWindow?.postMessage({type:'pdf-editor-tool',mode},location.origin);
-    else{$('editor-frame').dataset.mode=mode;$('editor-frame').src='editor.html?workspace=1&studio=1';}
+    else{$('editor-frame').dataset.mode=mode;$('editor-frame').src='editor.html?workspace=1&studio=1&v=0.6';}
   }
   function openUtility(src,title){if(!canLeaveEditor())return;document.body.classList.add('has-document','editor-open','utility-open');$('editor-panel').hidden=false;$('embedded-title').textContent=title;$('mode-label').textContent=title;$('editor-frame').src=src;}
   $('edit-current').onclick=guarded(()=>openEditor());

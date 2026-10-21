@@ -1,4 +1,4 @@
-# PDF Viewer 0.5 — browser studio
+# PDF Viewer 0.6 Beta — browser studio
 
 See [the feature matrix](features.html) for current complete, limited and pending behavior. The existing 0.4 Windows download remains unchanged; the workspace enhancements below are website changes.
 
